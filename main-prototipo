@@ -1,0 +1,59 @@
+var phraser = {
+    verb: ['be', 'do', 'start', 'win', 'lose', 'brought', 'jumped', 'fight', 'learn', 'code', 'listen', 'eat'],
+    article: ['the', 'the', 'one', 'a', 'some', 'when'],
+    object: ['love', 'laundry', 'computer', 'monster', 'ninja', 'zombie', 'pirate', 'music', 'mouse', 'dog', 'cat', 'work'],
+    target: ['to', 'before', 'after', 'until', 'with', 'without', 'of', 'from', 'away from'],
+    // quantity: ['much', 'some', 'a few', 'lots of', 'many', 'no'],
+    subject: ['me', 'you', 'they', 'sunset', 'her', 'it', 'mom', 'trump','']
+}
+var moodStructure = {
+    angry: {
+        before: ['Why dont you', 'Only idiots', 'Does it hurt to', ''],
+        after: [', you moron', 'for fuck sake', 'before I punch your face', 'with your ass', ', you piece of shit', 'shithead']
+    },
+    polite: {
+        before: ['Could you', 'Please,', 'Hi.', 'Woul you mind', 'I\'d be thankful if', ''],
+        after: ['if you don\'t mind', 'if you have the time', 'for me', ', please', '']
+    },
+    friendly: {
+        before: ['Heya!', 'Hey!', 'Wouldn\'t it be nice if we', 'I\'d love if we', ''],
+        after: ['<3', '. It would be awesome', 'It\'s the best', ', right?', '']
+    },
+    funny: {
+        before: ['Wouldn\'t it be fun if we', 'Imagine if a dog'],
+        after: [':D', 'HAHA!', ', in bed', 'wearing only socks', ', but with a monkey', ', but juggling knives']
+    }
+}
+var phraseStructure = Object.keys(phraser)
+function getRandom(min, max){
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function getMood(mood, atStart){
+    var moodFound = !!mood && moodStructure[mood]
+    if (moodFound) {
+        var timing = !!atStart?'before':'after';
+        var moodStrut = moodFound[timing]
+        return moodStrut[getRandom(1, moodStrut.length) - 1]
+    }
+    return ''
+}
+function makePhrase(mood){
+    var phrase = []
+    
+    phrase.push(getMood(mood, true))
+    
+    for (var i = 0, len = phraseStructure.length; i < len; i++){
+        var structs = phraser[phraseStructure[i]]
+        
+        var strucLen = structs.length
+        
+        var rnd =  getRandom(1, strucLen) -1;
+        phrase.push(structs[rnd])
+    }
+
+    phrase.push(getMood(mood, false))
+
+
+    return phrase.join(' ')
+}
